@@ -19,6 +19,7 @@ const ConnectWalletButton: React.FC = () => {
       disabled={!connector.ready}
       key={connector.id}
       onClick={() => connect(connector)}
+      corners="pill"
     >
       Connect Wallet
       {!connector.ready && ' (unsupported)'}

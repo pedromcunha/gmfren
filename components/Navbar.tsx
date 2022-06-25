@@ -10,13 +10,7 @@ import { truncateAddress } from 'utils/truncate'
 import { Anchor } from 'components/primitives/Anchor'
 import NavbarHamburgerMenu from 'components/NavbarHamburgerMenu'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import {
-  useConnect,
-  useAccount,
-  useEnsName,
-  useEnsAvatar,
-  useDisconnect,
-} from 'wagmi'
+import { useConnect, useAccount, useDisconnect } from 'wagmi'
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import { Dropdown, DropdownMenuItem } from './primitives/Dropdown'
 import { Text } from 'components/primitives/Text'
@@ -38,8 +32,6 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({ menuOpen }) => {
 
 const Navbar: FC<Props> = () => {
   const { data: account } = useAccount()
-  const { data: ensName } = useEnsName({ address: account?.address })
-  const { data: ensAvatar } = useEnsAvatar({ addressOrName: account?.address })
   const { isConnected } = useConnect()
   const { disconnect } = useDisconnect()
   const [hamburgerMenuOpen, setHamburgerMenuOpen] = useState(false)
@@ -52,18 +44,13 @@ const Navbar: FC<Props> = () => {
   let walletButton = null
 
   if (isConnected) {
-    address = ensName ? ensName : truncateAddress(account?.address)
     walletButton = (
       <Button corners="pill" color="gray3">
-        {ensAvatar ? (
-          <Avatar size="small" src={ensAvatar} />
-        ) : (
-          <Jazzicon
-            diameter={24}
-            seed={jsNumberForAddress(account.address || '')}
-          />
-        )}
-        {address}
+        <Jazzicon
+          diameter={24}
+          seed={jsNumberForAddress(account.address || '')}
+        />
+        {truncateAddress(account?.address)}
       </Button>
     )
   }
