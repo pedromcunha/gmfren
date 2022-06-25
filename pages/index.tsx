@@ -93,7 +93,7 @@ const IndexPage: NextPage = () => {
     <Layout title="gmfren">
       <Flex direction="column" align="center">
         <img
-          style={{ textAlign: 'center', width: 359, marginTop: 95 }}
+          style={{ textAlign: 'center', width: 359, marginTop: 60 }}
           src="/bear.png"
           alt="Bear Coffee"
         />
