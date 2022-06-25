@@ -84,7 +84,7 @@ const Navbar: FC<Props> = () => {
         <Flex align="center" css={{ gap: 24, flex: 1 }}>
           <Link href="/">
             <Anchor>
-              <img src="/superset.svg" alt="Navbar Logo" />
+              <img style={{ height: 43 }} src="/gmfren.svg" alt="Navbar Logo" />
             </Anchor>
           </Link>
         </Flex>

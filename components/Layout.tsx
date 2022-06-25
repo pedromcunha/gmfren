@@ -22,22 +22,22 @@ type Props = {
 }
 
 const Layout: FC<Props> = ({
-  title = 'Superset',
-  keywords = 'Superset, Reservoir, API, Marketplace',
-  description = 'Superset',
+  title = 'gmfren',
+  keywords = 'gmfren',
+  description = 'gmfren',
   favicon = '/favicon.ico',
   twitterImage,
   twitterSiteDomain,
   twitterUrl,
-  twitterTitle = 'Superset',
-  twitterDescription = 'Superset',
+  twitterTitle = 'guperset',
+  twitterDescription = 'guperset',
   twitterSite,
-  ogTitle = 'Superset',
-  ogDescription = 'Superset',
-  ogSiteName = 'Superset',
+  ogTitle = 'guperset',
+  ogDescription = 'guperset',
+  ogSiteName = 'guperset',
   ogUrl,
   ogImage,
-  ogImageAlt = 'Superset',
+  ogImageAlt = 'guperset',
   children,
 }) => {
   return (

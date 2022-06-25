@@ -6,7 +6,7 @@ import { createClient, configureChains, WagmiConfig, chain } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 import { InjectedConnector } from 'wagmi/connectors/injected'
 
-const { chains } = configureChains([chain.rinkeby], [publicProvider()])
+const { chains } = configureChains([chain.kovan], [publicProvider()])
 
 const client = createClient({
   autoConnect: true,
