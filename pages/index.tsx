@@ -17,7 +17,7 @@ const IndexPage: NextPage = () => {
       <Layout title="gmfren">
         <Flex direction="column" align="center" css={{ mt: 95 }}>
           <Text style="h4" css={{ textAlign: 'center', mb: 64, mt: 52 }}>
-            You are all set!
+            You're all set!
           </Text>
           <Text css={{ display: 'block' }}>
             Go to the app store or play store to download the app.
@@ -61,7 +61,7 @@ const IndexPage: NextPage = () => {
         <Flex direction="column" align="center" css={{ mt: 95 }}>
           <Text style="h4" css={{ textAlign: 'center', mb: 64, mt: 52 }}>
             Subscribe to our channel to
-            <br /> recieve following events:
+            <br /> recieve the following events:
           </Text>
           <Box css={{ maxWidth: 471, mb: 163 }}>
             <Box css={{ mb: 24 }}>
@@ -69,8 +69,7 @@ const IndexPage: NextPage = () => {
                 Daily Greetings
               </Text>
               <Text>
-                Daily greetings Receive daily greetings and mental health tips
-                from gm fren
+                Receive daily greetings and mental health tips from gm fren
               </Text>
             </Box>
             <Box>
@@ -78,8 +77,7 @@ const IndexPage: NextPage = () => {
                 Sales Events
               </Text>
               <Text>
-                Sales events Receive a message from gm fren whenever one of your
-                items sells.
+                Receive a message from gm fren whenever one of your items sells.
               </Text>
             </Box>
           </Box>

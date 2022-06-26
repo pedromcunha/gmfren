@@ -38,7 +38,7 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({ menuOpen }) => {
 }
 
 const Navbar: FC<Props> = () => {
-  const signer = useSigner()
+  const { data: signer } = useSigner()
   const isSubscribed = useUserSubscribed(undefined)
   const { data: account } = useAccount()
   const { isConnected } = useConnect()
@@ -116,12 +116,7 @@ const Navbar: FC<Props> = () => {
                           signer,
                           '0xC55b549489723ea30B4C3c555b323e06753fc8D9',
                           chainId.kovan,
-                          account.address,
-                          {
-                            onError: (e) => {
-                              console.log(e)
-                            },
-                          }
+                          account.address
                         )
                       }}
                     >
