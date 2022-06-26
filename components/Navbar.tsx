@@ -1,5 +1,4 @@
 import { FC, useState } from 'react'
-import { Avatar } from './primitives/Avatar'
 import Button from './primitives/Button'
 import { Flex } from './primitives/Flex'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,10 +9,18 @@ import { truncateAddress } from 'utils/truncate'
 import { Anchor } from 'components/primitives/Anchor'
 import NavbarHamburgerMenu from 'components/NavbarHamburgerMenu'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import { useConnect, useAccount, useDisconnect } from 'wagmi'
+import {
+  useConnect,
+  useAccount,
+  useDisconnect,
+  chainId,
+  useSigner,
+} from 'wagmi'
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import { Dropdown, DropdownMenuItem } from './primitives/Dropdown'
 import { Text } from 'components/primitives/Text'
+import useUserSubscribed from 'hooks/useUserSubscribed'
+import { channels } from '@epnsproject/frontend-sdk-staging'
 
 type Props = {
   isWalletConnected?: boolean
@@ -31,6 +38,8 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({ menuOpen }) => {
 }
 
 const Navbar: FC<Props> = () => {
+  const signer = useSigner()
+  const isSubscribed = useUserSubscribed(undefined)
   const { data: account } = useAccount()
   const { isConnected } = useConnect()
   const { disconnect } = useDisconnect()
@@ -40,7 +49,6 @@ const Navbar: FC<Props> = () => {
     true
   )
 
-  let address = ''
   let walletButton = null
 
   if (isConnected) {
@@ -99,6 +107,27 @@ const Navbar: FC<Props> = () => {
                   >
                     <Text>Disconnect</Text>
                   </DropdownMenuItem>
+                  {isSubscribed && (
+                    <DropdownMenuItem
+                      css={{ padding: 8 }}
+                      onClick={() => {
+                        debugger
+                        channels.optOut(
+                          signer,
+                          '0xC55b549489723ea30B4C3c555b323e06753fc8D9',
+                          chainId.kovan,
+                          account.address,
+                          {
+                            onError: (e) => {
+                              console.log(e)
+                            },
+                          }
+                        )
+                      }}
+                    >
+                      <Text>Unsubscribe</Text>
+                    </DropdownMenuItem>
+                  )}
                 </Dropdown>
               ) : (
                 <ConnectWalletButton />
