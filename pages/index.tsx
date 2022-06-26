@@ -4,15 +4,38 @@ import { Box } from 'components/primitives/Box'
 import { Flex } from 'components/primitives/Flex'
 import { Text } from 'components/primitives/Text'
 import SubscribeButton from 'components/SubscribeButton'
-import useUserSubscribed from 'hooks/useUserSubscribed'
 import { NextPage } from 'next'
-import { useConnect } from 'wagmi'
+import { useEffect } from 'react'
+import { useAccount, useConnect } from 'wagmi'
+import { channels } from '@epnsproject/frontend-sdk-staging'
+import { useRecoilState } from 'recoil'
+import channelSubscribedState from 'atoms/channelSubscribedState'
 
 const IndexPage: NextPage = () => {
+  const [channelSubscribed, setChannelSubscribed] = useRecoilState(
+    channelSubscribedState
+  )
   const { isConnected } = useConnect()
-  const isSubscribed = useUserSubscribed(null)
 
-  if (isSubscribed) {
+  const { data: account } = useAccount()
+
+  useEffect(() => {
+    if (!account?.address) {
+      setChannelSubscribed(false)
+      return
+    }
+
+    channels
+      .isUserSubscribed(
+        account?.address,
+        '0xC55b549489723ea30B4C3c555b323e06753fc8D9'
+      )
+      .then((subscribed) => {
+        setChannelSubscribed(subscribed)
+      })
+  }, [account])
+
+  if (channelSubscribed) {
     return (
       <Layout title="gmfren">
         <Flex direction="column" align="center" css={{ mt: 95 }}>

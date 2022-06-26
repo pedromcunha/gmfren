@@ -19,12 +19,9 @@ import {
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 import { Dropdown, DropdownMenuItem } from './primitives/Dropdown'
 import { Text } from 'components/primitives/Text'
-import useUserSubscribed from 'hooks/useUserSubscribed'
 import { channels } from '@epnsproject/frontend-sdk-staging'
-
-type Props = {
-  isWalletConnected?: boolean
-}
+import { useRecoilState } from 'recoil'
+import channelSubscribedState from 'atoms/channelSubscribedState'
 
 type HamburgerIconProps = {
   menuOpen: boolean
@@ -37,9 +34,11 @@ const HamburgerIcon: FC<HamburgerIconProps> = ({ menuOpen }) => {
   return <FontAwesomeIcon icon={faBars} width={16} height={16} />
 }
 
-const Navbar: FC<Props> = () => {
+const Navbar = () => {
   const { data: signer } = useSigner()
-  const isSubscribed = useUserSubscribed(undefined)
+  const [channelSubscribed, setChannelSubscribed] = useRecoilState(
+    channelSubscribedState
+  )
   const { data: account } = useAccount()
   const { isConnected } = useConnect()
   const { disconnect } = useDisconnect()
@@ -107,16 +106,19 @@ const Navbar: FC<Props> = () => {
                   >
                     <Text>Disconnect</Text>
                   </DropdownMenuItem>
-                  {isSubscribed && (
+                  {channelSubscribed && (
                     <DropdownMenuItem
                       css={{ padding: 8 }}
                       onClick={() => {
-                        debugger
                         channels.optOut(
                           signer,
                           '0xC55b549489723ea30B4C3c555b323e06753fc8D9',
                           chainId.kovan,
-                          account.address
+                          account.address,
+                          {
+                            baseApiUrl: 'https://backend-kovan.epns.io/apis',
+                            onSuccess: () => setChannelSubscribed(false),
+                          }
                         )
                       }}
                     >

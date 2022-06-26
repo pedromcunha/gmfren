@@ -1,19 +1,21 @@
 import { channels } from '@epnsproject/frontend-sdk-staging'
 import Button from 'components/primitives/Button'
-import useUserSubscribed from 'hooks/useUserSubscribed'
-import React, { FC, useState } from 'react'
+import React, { FC } from 'react'
 import { chainId, useAccount, useSigner } from 'wagmi'
+import { useRecoilState } from 'recoil'
+import channelSubscribedState from 'atoms/channelSubscribedState'
 
 const SubscribeButton: FC = () => {
   const { data: signer } = useSigner()
   const { data: account } = useAccount()
-  const [subscribedTime, setSubscribedTime] = useState<undefined | number>()
-  const isSubscribed = useUserSubscribed(subscribedTime)
+  const [channelSubscribed, setChannelSubscribed] = useRecoilState(
+    channelSubscribedState
+  )
 
   return (
     <Button
       onClick={() => {
-        if (isSubscribed) {
+        if (channelSubscribed) {
           channels.optOut(
             signer,
             '0xC55b549489723ea30B4C3c555b323e06753fc8D9',
@@ -21,10 +23,7 @@ const SubscribeButton: FC = () => {
             account.address,
             {
               baseApiUrl: 'https://backend-kovan.epns.io/apis',
-              onSuccess: () => setSubscribedTime(new Date().getTime()),
-              onError: (err) => {
-                console.log(err)
-              },
+              onSuccess: () => setChannelSubscribed(false),
             }
           )
         } else {
@@ -35,13 +34,13 @@ const SubscribeButton: FC = () => {
             account.address,
             {
               baseApiUrl: 'https://backend-kovan.epns.io/apis',
-              onSuccess: () => setSubscribedTime(new Date().getTime()),
+              onSuccess: () => setChannelSubscribed(true),
             }
           )
         }
       }}
     >
-      {isSubscribed ? 'Unsubscribe' : 'Subscribe'}
+      {channelSubscribed ? 'Unsubscribe' : 'Subscribe'}
     </Button>
   )
 }

@@ -5,6 +5,7 @@ import { darkTheme, globalStyles } from 'stitches.config'
 import { createClient, configureChains, WagmiConfig, chain } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { RecoilRoot } from 'recoil'
 
 const { chains } = configureChains([chain.kovan], [publicProvider()])
 
@@ -25,18 +26,20 @@ function MyApp({ Component, pageProps }: AppProps) {
   globalStyles()
 
   return (
-    <WagmiConfig client={client}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        value={{
-          dark: darkTheme.className,
-          light: 'light',
-        }}
-      >
-        <Component {...pageProps} />
-      </ThemeProvider>
-    </WagmiConfig>
+    <RecoilRoot>
+      <WagmiConfig client={client}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          value={{
+            dark: darkTheme.className,
+            light: 'light',
+          }}
+        >
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </WagmiConfig>
+    </RecoilRoot>
   )
 }
 
